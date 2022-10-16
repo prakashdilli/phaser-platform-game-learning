@@ -42,11 +42,7 @@ class Play extends Phaser.Scene {
     }
 
     createPlayer() {
-        // const player = this.physics.add.sprite(100,250,'player')
-        const player = new Player(this,100,250)
-        player.body.setGravityY(300)
-        player.setCollideWorldBounds(true)
-        return player;
+        return new Player(this,100,250)
     }
 
     update (){ // update methods called 60 times per sec
