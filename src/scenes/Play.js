@@ -28,7 +28,7 @@ class Play extends Phaser.Scene {
         this.setupFollowupCameraOn(player)
 
         // setup the end zone for the level
-        this.createEndZone(playerZones.end)
+        this.createEndZone(playerZones.end,player)
     }
 
     createMap() {
@@ -74,11 +74,16 @@ class Play extends Phaser.Scene {
         }
     }
 
-    createEndZone(endZone){
-        this.physics.add.sprite(endZone.x,endZone.y,'end')
+    createEndZone(endZone,player){
+        const endOfLevel = this.physics.add.sprite(endZone.x,endZone.y,'end')
             .setSize(5, this.config.height * 2)
             .setAlpha(0)
             .setOrigin(0.5,1)
+
+        const eolOverlap = this.physics.add.overlap(player,endOfLevel, ()=>{
+            eolOverlap.active = false;
+            console.log('player crossed the end zone')
+        })
     }
 
 }
