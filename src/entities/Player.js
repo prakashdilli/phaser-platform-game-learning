@@ -56,6 +56,10 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         this.play('jump',true)
         
     }
+
+    addCollider(otheGameObject,callback) {
+        this.scene.physics.add.collider(this,otheGameObject,callback,null,this)
+    }
 }
 
 export default Player;
