@@ -14,12 +14,10 @@ class Play extends Phaser.Scene {
         const map = this.createMap()
         const layers = this.createLayers(map)  
         
-        this.player = this.createPlayer()
+        const player = this.createPlayer()
 
-        this.playerSpeed = 200
-        this.physics.add.collider(this.player,layers.platformColliders)
+        this.physics.add.collider(player,layers.platformColliders)
         
-        this.cursors = this.input.keyboard.createCursorKeys()
     }
 
     createMap() {
@@ -45,18 +43,6 @@ class Play extends Phaser.Scene {
         return new Player(this,100,250)
     }
 
-    update (){ // update methods called 60 times per sec
-        const { left, right } = this.cursors
-
-        if(left.isDown){
-            this.player.setVelocityX(-this.playerSpeed)
-        } else if(right.isDown){
-            this.player.setVelocityX(this.playerSpeed)
-        }
-        else{
-            this.player.setVelocityX(0)
-        }
-    }
 }
 
 export default Play;
