@@ -40,7 +40,8 @@ class Play extends Phaser.Scene {
         const platformColliders =  map.createStaticLayer('platform_colliders',tileset) // 1st arg name of the layer in the tilemap, 2nd arg list of tileset used in that layer
         const environment = map.createStaticLayer('environment',tileset)
         const platform =  map.createStaticLayer('platform',tileset) // 1st arg name of the layer in the tilemap, 2nd arg list of tileset used in that layer
-
+        const platformZones =  map.getObjectLayer('player_zones').objects
+        debugger    
         // platformColliders.setCollisionByExclusion(-1,true)
         platformColliders.setCollisionByProperty({collides:true}) // collision by property
 
