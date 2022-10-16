@@ -8,6 +8,7 @@ class Play extends Phaser.Scene {
     }
 
     preload() {
+        
     }
 
     create() {
@@ -28,10 +29,10 @@ class Play extends Phaser.Scene {
     }
 
     createLayers(map) {
-        const titleset = map.getTileset('main_lev_build_1')
-        const platformColliders =  map.createStaticLayer('platform_colliders',titleset) // 1st arg name of the layer in the tilemap, 2nd arg list of tileset used in that layer
-        const environment = map.createStaticLayer('environment',titleset)
-        const platform =  map.createStaticLayer('platform',titleset) // 1st arg name of the layer in the tilemap, 2nd arg list of tileset used in that layer
+        const tileset = map.getTileset('main_lev_build_1')
+        const platformColliders =  map.createStaticLayer('platform_colliders',tileset) // 1st arg name of the layer in the tilemap, 2nd arg list of tileset used in that layer
+        const environment = map.createStaticLayer('environment',tileset)
+        const platform =  map.createStaticLayer('platform',tileset) // 1st arg name of the layer in the tilemap, 2nd arg list of tileset used in that layer
 
         // platformColliders.setCollisionByExclusion(-1,true)
         platformColliders.setCollisionByProperty({collides:true}) // collision by property
