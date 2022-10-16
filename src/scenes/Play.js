@@ -18,7 +18,7 @@ class Play extends Phaser.Scene {
         const layers = this.createLayers(map)  
         const playerZones = this.getPlayerZones(layers.platformZones)
         const player = this.createPlayer(playerZones)
-        const birdman = this.createEnemy()
+        const birdmans = this.createEnemies(layers.enemySpawns)
 
         this.createPlayerColliders(player, {
             colliders : {
@@ -26,7 +26,7 @@ class Play extends Phaser.Scene {
             }
         })
 
-        this.createEnemyColliders(birdman, {
+        this.createEnemyColliders(birdmans, {
             colliders : {
                 platformColliders : layers.platformColliders,
                 player : player
@@ -53,18 +53,23 @@ class Play extends Phaser.Scene {
         const environment = map.createStaticLayer('environment',tileset)
         const platform =  map.createStaticLayer('platform',tileset) // 1st arg name of the layer in the tilemap, 2nd arg list of tileset used in that layer
         const platformZones =  map.getObjectLayer('player_zones')
+        const enemySpawns =  map.getObjectLayer('enemy_spawns')
         // platformColliders.setCollisionByExclusion(-1,true)
         platformColliders.setCollisionByProperty({collides:true}) // collision by property
 
-        return { environment,platform,platformColliders,platformZones }
+        return { environment,platform,platformColliders,platformZones,enemySpawns }
     }
 
     createPlayer({start}) {
         return new Player(this,start.x,start.y)
     }
 
-    createEnemy() {
-        return new Birdman(this,200,200)
+    createEnemies(enemySpawnsLayer) {
+        const enemySpawns = enemySpawnsLayer.objects
+        return enemySpawns.map(enemy =>  { 
+            return new Birdman(this,enemy.x,enemy.y) 
+        } )
+       
     }
 
     createPlayerColliders(player, { colliders }) {
@@ -72,10 +77,13 @@ class Play extends Phaser.Scene {
             .addCollider(colliders.platformColliders)
     }
 
-    createEnemyColliders(birdman, { colliders }) {
-        birdman
+    createEnemyColliders(birdmans, { colliders }) {
+        birdmans.forEach((enemy) => {
+            enemy
             .addCollider(colliders.platformColliders)
             .addCollider(colliders.player)
+        })
+            
     }
 
     setupFollowupCameraOn(player){
