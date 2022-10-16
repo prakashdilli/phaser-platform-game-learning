@@ -12,7 +12,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
     }
 
     init() {
-        this.gravity = 500
+        this.gravity = 600
         this.playerSpeed = 200
         this.body.setGravityY(this.gravity)
         this.setCollideWorldBounds(true)
@@ -25,16 +25,21 @@ class Player extends Phaser.Physics.Arcade.Sprite {
     }
 
     update () { // update methods called 60 times per sec
-        const { left, right } = this.cursors
+        const { left, right,space,up } = this.cursors
+        const onFloor = this.body.onFloor();
 
-        if(left.isDown){
+        if (left.isDown) {
             this.setVelocityX(-this.playerSpeed)
             this.setFlipX(true)
-        } else if(right.isDown){
+        } else if (right.isDown) {
             this.setVelocityX(this.playerSpeed)
         }
-        else{
+        else {
             this.setVelocityX(0)
+        }
+
+        if ((space.isDown || up.isDown) && onFloor) {
+            this.setVelocity(-this.playerSpeed * 1.5)
         }
 
         this.body.velocity.x !=0 ? this.play('run',true) : this.play('idle',true)
