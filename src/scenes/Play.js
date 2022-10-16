@@ -15,8 +15,8 @@ class Play extends Phaser.Scene {
     create() {
         const map = this.createMap()
         const layers = this.createLayers(map)  
-        
-        const player = this.createPlayer()
+        const playerZones = this.getPlayerZones(layers.platformZones)
+        const player = this.createPlayer(playerZones)
 
         this.createPlayerColliders(player, {
             colliders : {
@@ -40,16 +40,15 @@ class Play extends Phaser.Scene {
         const platformColliders =  map.createStaticLayer('platform_colliders',tileset) // 1st arg name of the layer in the tilemap, 2nd arg list of tileset used in that layer
         const environment = map.createStaticLayer('environment',tileset)
         const platform =  map.createStaticLayer('platform',tileset) // 1st arg name of the layer in the tilemap, 2nd arg list of tileset used in that layer
-        const platformZones =  map.getObjectLayer('player_zones').objects
-        debugger    
+        const platformZones =  map.getObjectLayer('player_zones')
         // platformColliders.setCollisionByExclusion(-1,true)
         platformColliders.setCollisionByProperty({collides:true}) // collision by property
 
-        return { environment,platform,platformColliders }
+        return { environment,platform,platformColliders,platformZones }
     }
 
-    createPlayer() {
-        return new Player(this,100,250)
+    createPlayer({start,end}) {
+        return new Player(this,start.x,start.y)
     }
 
     createPlayerColliders(player, { colliders }) {
@@ -62,6 +61,14 @@ class Play extends Phaser.Scene {
         this.cameras.main.startFollow(player)
         this.physics.world.setBounds(0, 0, width + mapOffset, height+200)
         this.cameras.main.setBounds(0, 0, width + mapOffset, height).setZoom(zoomFactor)
+    }
+
+    getPlayerZones(playerZonesLayer) {
+        const playerZones = playerZonesLayer.objects
+        return {
+            start : playerZones.find(zone => zone.name === 'startZone'),
+            end : playerZones.find(zone => zone.name === 'endZone')
+        }
     }
 
 }
