@@ -26,6 +26,9 @@ class Play extends Phaser.Scene {
 
         // setup follow up camera
         this.setupFollowupCameraOn(player)
+
+        // setup the end zone for the level
+        this.createEndZone(playerZones.end)
     }
 
     createMap() {
@@ -47,7 +50,7 @@ class Play extends Phaser.Scene {
         return { environment,platform,platformColliders,platformZones }
     }
 
-    createPlayer({start,end}) {
+    createPlayer({start}) {
         return new Player(this,start.x,start.y)
     }
 
@@ -69,6 +72,13 @@ class Play extends Phaser.Scene {
             start : playerZones.find(zone => zone.name === 'startZone'),
             end : playerZones.find(zone => zone.name === 'endZone')
         }
+    }
+
+    createEndZone(endZone){
+        this.physics.add.sprite(endZone.x,endZone.y,'end')
+            .setSize(5, this.config.height * 2)
+            .setAlpha(0)
+            .setOrigin(0.5,1)
     }
 
 }
