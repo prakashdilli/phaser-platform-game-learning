@@ -201,6 +201,12 @@
                  "id":3,
                  "name":"spawn",
                  "point":true,
+                 "properties":[
+                        {
+                         "name":"Type",
+                         "type":"string",
+                         "value":"Birdman"
+                        }],
                  "rotation":0,
                  "visible":true,
                  "width":0,
@@ -213,6 +219,12 @@
                  "id":4,
                  "name":"spawn",
                  "point":true,
+                 "properties":[
+                        {
+                         "name":"Type",
+                         "type":"string",
+                         "value":"Birdman"
+                        }],
                  "rotation":0,
                  "visible":true,
                  "width":0,
@@ -225,6 +237,12 @@
                  "id":5,
                  "name":"spawn",
                  "point":true,
+                 "properties":[
+                        {
+                         "name":"Type",
+                         "type":"string",
+                         "value":"Birdman"
+                        }],
                  "rotation":0,
                  "visible":true,
                  "width":0,
