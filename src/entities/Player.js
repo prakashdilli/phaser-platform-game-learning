@@ -13,7 +13,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
 
     init() {
         this.gravity = 600
-        this.playerSpeed = 200
+        this.playerSpeed = 150
         this.jumpCount = 0
         this.consecutiveJump = 1
         this.body.setGravityY(this.gravity)
@@ -44,15 +44,16 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         }
 
         if ((isUpJustDown || isSpaceJustDown) && (onFloor || this.jumpCount < this.consecutiveJump)) {
-            this.setVelocity(-this.playerSpeed * 1.5)
+            this.setVelocity(-this.playerSpeed * 2.5)
             this.jumpCount++
         }
 
         if(onFloor){
             this.jumpCount = 0
         }
-
-        this.body.velocity.x !=0 ? this.play('run',true) : this.play('idle',true)
+        onFloor ? 
+            this.body.velocity.x !=0 ? this.play('run',true) : this.play('idle',true) :
+        this.play('jump',true)
         
     }
 }
