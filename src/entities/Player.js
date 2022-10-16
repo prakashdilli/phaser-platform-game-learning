@@ -8,6 +8,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         scene.physics.add.existing(this)
 
         this.init()
+        this.initEvents()
     }
 
     init() {
@@ -18,8 +19,11 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         this.cursors = this.scene.input.keyboard.createCursorKeys()
     }
 
-    preUpdate (time,delta) { // update methods called 60 times per sec
-        super.preUpdate(time,delta)
+    initEvents() {
+        this.scene.events.on(Phaser.Scenes.Events.UPDATE, this.update,this)
+    }
+
+    update () { // update methods called 60 times per sec
         const { left, right } = this.cursors
 
         if(left.isDown){
