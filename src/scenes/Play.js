@@ -1,7 +1,7 @@
 import Phaser from "phaser";
 import Birdman from "../entities/Birdman";
 import Player from "../entities/Player";
-import { getEnemyTypes } from '../types/index';
+import Enemies from "../groups/Enemies";
 class Play extends Phaser.Scene {
 
     constructor(config) {
@@ -18,7 +18,7 @@ class Play extends Phaser.Scene {
         const layers = this.createLayers(map)  
         const playerZones = this.getPlayerZones(layers.platformZones)
         const player = this.createPlayer(playerZones)
-        const birdmans = this.createEnemies(layers.enemySpawns)
+        const enemies = this.createEnemies(layers.enemySpawns)
 
         this.createPlayerColliders(player, {
             colliders : {
@@ -26,7 +26,7 @@ class Play extends Phaser.Scene {
             }
         })
 
-        this.createEnemyColliders(birdmans, {
+        this.createEnemyColliders(enemies, {
             colliders : {
                 platformColliders : layers.platformColliders,
                 player : player
@@ -66,12 +66,16 @@ class Play extends Phaser.Scene {
 
     createEnemies(enemySpawnsLayer) {
         const enemySpawns = enemySpawnsLayer.objects
-        const enemyTypes = getEnemyTypes()
-        return enemySpawns.map(enemy =>  { 
+        const enemies = new Enemies(this)
+        const enemyTypes = enemies.getTypes()
+        debugger
+        enemySpawns.map(enemy =>  { 
             const type = enemy.properties.find(prop => prop.name === 'Type1')
             const enemyType = type?type['value']:'Birdman'
-            return new enemyTypes[enemyType](this,enemy.x,enemy.y) 
+            enemies.add(new enemyTypes[enemyType](this,enemy.x,enemy.y))
         } )
+
+        return enemies;
        
     }
 
@@ -81,12 +85,9 @@ class Play extends Phaser.Scene {
     }
 
     createEnemyColliders(birdmans, { colliders }) {
-        birdmans.forEach((enemy) => {
-            enemy
+        birdmans
             .addCollider(colliders.platformColliders)
             .addCollider(colliders.player)
-        })
-            
     }
 
     setupFollowupCameraOn(player){
